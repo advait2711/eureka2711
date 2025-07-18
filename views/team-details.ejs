@@ -1,0 +1,119 @@
+<%- include('partials/header') %>
+
+<h1 class="mb-4">Manage Team: <span class="text-primary"><%= team.name %></span></h1>
+
+<div class="row g-5">
+    <div class="col-lg-5">
+        <h4><i class="bi bi-person-plus-fill text-success me-2"></i>Add Member</h4>
+        <div class="card">
+            <div class="card-body">
+                <% if (availableEmployees.length > 0) { %>
+                    <form action="/teams/<%= team._id %>/add-member" method="POST">
+                        <div class="mb-3">
+                            <label for="employeeId" class="form-label">Select an Employee</label>
+                            <select class="form-select" id="employeeId" name="employeeId" required>
+                                <option value="" disabled selected>Choose...</option>
+                                <% availableEmployees.forEach(employee => { %>
+                                    <option value="<%= employee._id %>"><%= employee.name %> - <%= employee.position %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Add to Team</button>
+                    </form>
+                <% } else { %>
+                    <p class="text-muted text-center mb-0">All available employees are already in this team.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <h4><i class="bi bi-people-fill text-info me-2"></i>Current Members (<%= teamMembers.length %>)</h4>
+        <div class="card">
+            <div class="card-body">
+                <% if (teamMembers.length > 0) { %>
+                    <ul class="list-group list-group-flush">
+                        <% teamMembers.forEach(member => { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold"><%= member.name %></div>
+                                    <small class="text-muted"><%= member.position %></small>
+                                </div>
+                                <form action="/teams/<%= team._id %>/remove-member/<%= member._id %>" method="POST" onsubmit="return confirm('Remove <%= member.name %> from this team?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                                </form>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p class="text-muted text-center mb-0">This team has no members yet.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row g-5">
+    <div class="col-lg-5">
+        <h4><i class="bi bi-folder-plus text-primary me-2"></i>Assign a New Project</h4>
+        <div class="card">
+            <div class="card-body">
+                <form action="/teams/<%= team._id %>/projects/create" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Project Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="startDate" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="endDate" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Create Project</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <h4><i class="bi bi-briefcase-fill text-warning me-2"></i>Assigned Projects (<%= projects.length %>)</h4>
+        <div class="card">
+            <div class="card-body">
+                <% if (projects.length > 0) { %>
+                    <ul class="list-group list-group-flush">
+                        <% projects.forEach(project => { %>
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="fw-bold"><%= project.name %></div>
+                                        <p class="mb-1"><%= project.description %></p>
+                                        <small class="text-muted">
+                                            <%= new Date(project.startDate).toLocaleDateString() %> - <%= new Date(project.endDate).toLocaleDateString() %>
+                                        </small>
+                                    </div>
+                                    <form action="/projects/delete/<%= project._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this project?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger ms-3"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p class="text-muted text-center mb-0">No projects have been assigned to this team.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

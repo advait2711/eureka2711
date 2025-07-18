@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Manage All Employees</h1>
+    <a href="/employees/create" class="btn btn-success">
+        <i class="bi bi-plus-circle-fill me-2"></i>Add New Employee
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Level</th>
+                        <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (employees.length === 0) { %>
+                        <tr><td colspan="4" class="text-center text-muted p-4">No employees found.</td></tr>
+                    <% } %>
+                    <% employees.forEach(employee => { %>
+                        <tr>
+                            <td class="fw-medium"><%= employee.name %></td>
+                            <td><%= employee.position %></td>
+                            <td>
+                                <% 
+                                let badgeClass = 'bg-secondary';
+                                if (employee.level === 'Senior') badgeClass = 'bg-success';
+                                if (employee.level === 'Mid') badgeClass = 'bg-info';
+                                if (employee.level === 'Junior') badgeClass = 'bg-warning text-dark';
+                                %>
+                                <span class="badge <%= badgeClass %>"><%= employee.level %></span>
+                            </td>
+                            <td class="text-end">
+                                <a href="/employees/edit/<%= employee._id %>" class="btn btn-sm btn-outline-primary me-2">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <form action="/employees/delete/<%= employee._id %>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure? This will also remove the employee from all teams.');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash3"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

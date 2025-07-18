@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Teams Dashboard</h1>
+    <a href="/teams/create" class="btn btn-primary">
+        <i class="bi bi-plus-circle-fill me-2"></i>Create New Team
+    </a>
+</div>
+
+<% if (teams.length === 0) { %>
+    <div class="text-center text-muted p-5 bg-light rounded">
+        <h4>No teams found.</h4>
+        <p>Get started by creating your first team!</p>
+    </div>
+<% } else { %>
+    <div class="row g-4">
+        <% teams.forEach(team => { %>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><i class="bi bi-collection-fill text-primary me-2"></i><%= team.name %></h5>
+                        <p class="card-text text-muted">Manage the members of this team.</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <a href="/teams/<%= team._id %>" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square me-1"></i> Manage Team
+                            </a>
+                            <form action="/teams/delete/<%= team._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete the <%= team.name %> team?');">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+<% } %>
+
+<%- include('partials/footer') %>
