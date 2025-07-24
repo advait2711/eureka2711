@@ -39,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.ATLAS_URI,
+      mongoUrl: process.env.ATLAS,
       dbName: "employees_db",
       collectionName: "sessions",
     }),
