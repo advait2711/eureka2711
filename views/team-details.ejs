@@ -1,11 +1,53 @@
 <%- include('partials/header') %>
 
-<h1 class="mb-4">Manage Team: <span class="text-primary"><%= team.name %></span></h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Manage Team: <span class="text-primary"><%= team.name %></span></h1>
+    <a href="/dashboard" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
 
-<div class="row g-5">
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card h-100">
+             <div class="card-header d-flex justify-content-between align-items-center">
+                 <h5 class="mb-0"><i class="bi bi-people-fill text-info me-2"></i>Current Members (<%= teamMembers.length %>)</h5>
+            </div>
+            <div class="card-body">
+                <% if (teamMembers.length > 0) { %>
+                    <ul class="list-group list-group-flush">
+                        <% teamMembers.forEach(member => { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div class="member-item">
+                                    
+                                    <img src="/employees/<%= member._id %>/photo" 
+                                         alt="Photo of <%= member.name %>" 
+                                         class="profile-pic-xs"
+                                         onerror="this.onerror=null; this.src='https://placehold.co/38x38/EFEFEF/AAAAAA?text=_';">
+                                    <div>
+                                        <div class="fw-bold"><%= member.name %></div>
+                                        <small class="text-muted"><%= member.position %></small>
+                                    </div>
+                                </div>
+                                <form action="/teams/<%= team._id %>/remove-member/<%= member._id %>" method="POST" onsubmit="return confirm('Remove <%= member.name %> from this team?');">
+                                    <button type="submit" class="btn btn-sm btn-link text-danger" title="Remove <%= member.name %>">
+                                        <i class="bi bi-x-circle fs-5"></i>
+                                    </button>
+                                </form>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p class="text-muted text-center p-3">This team has no members yet.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-5">
-        <h4><i class="bi bi-person-plus-fill text-success me-2"></i>Add Member</h4>
-        <div class="card">
+        <div class="card h-100">
+             <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-person-plus-fill text-success me-2"></i>Add Employee</h5>
+            </div>
             <div class="card-body">
                 <% if (availableEmployees.length > 0) { %>
                     <form action="/teams/<%= team._id %>/add-member" method="POST">
@@ -21,32 +63,7 @@
                         <button type="submit" class="btn btn-success w-100">Add to Team</button>
                     </form>
                 <% } else { %>
-                    <p class="text-muted text-center mb-0">All available employees are already in this team.</p>
-                <% } %>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-7">
-        <h4><i class="bi bi-people-fill text-info me-2"></i>Current Members (<%= teamMembers.length %>)</h4>
-        <div class="card">
-            <div class="card-body">
-                <% if (teamMembers.length > 0) { %>
-                    <ul class="list-group list-group-flush">
-                        <% teamMembers.forEach(member => { %>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="fw-bold"><%= member.name %></div>
-                                    <small class="text-muted"><%= member.position %></small>
-                                </div>
-                                <form action="/teams/<%= team._id %>/remove-member/<%= member._id %>" method="POST" onsubmit="return confirm('Remove <%= member.name %> from this team?');">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
-                                </form>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p class="text-muted text-center mb-0">This team has no members yet.</p>
+                    <p class="text-muted text-center mb-0 p-3">All available employees are already in this team.</p>
                 <% } %>
             </div>
         </div>

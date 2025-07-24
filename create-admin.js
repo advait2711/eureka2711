@@ -1,12 +1,12 @@
-// A temporary script to create your first admin. Run it once.
+
 import bcrypt from 'bcrypt';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const saltRounds = 10;
-const plainPassword = 'adminpassword'; // Change this
-const username = 'admin'; // Change this
+const plainPassword = 'adminpassword'; 
+const username = 'admin'; 
 
 async function createAdmin() {
     const client = new MongoClient(process.env.ATLAS_URI);

@@ -38,17 +38,17 @@ export const renderTeamPage = async (req, res) => {
       return res.status(404).send("Team not found.");
     }
 
-    // Find employees who are members of this team
+    
     const teamMembers = await getDB().collection("employees").find({
       _id: { $in: team.members.map(id => new ObjectId(id)) }
     }).toArray();
 
-    // Find employees who are NOT members of this team
+    
     const availableEmployees = await getDB().collection("employees").find({
       _id: { $nin: team.members.map(id => new ObjectId(id)) }
     }).toArray();
     
-    // Find projects assigned to this team
+   
     const projects = await getDB().collection("projects").find({ teamId: teamId }).toArray();
 
     res.render("team-details", { team, teamMembers, availableEmployees, projects });
@@ -106,7 +106,7 @@ export const handleDeleteTeam = async (req, res) => {
   }
 };
 
-// *** NEW FUNCTIONS FOR PROJECT MANAGEMENT ***
+
 
 // Handles the creation of a new project for a team
 export const handleCreateProject = async (req, res) => {

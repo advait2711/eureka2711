@@ -1,5 +1,7 @@
 <%- include('partials/header') %>
 
+
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h2">Manage All Employees</h1>
     <a href="/employees/create" class="btn btn-success">
@@ -13,6 +15,7 @@
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
+                        <th scope="col" style="width: 5%;">Photo</th>
                         <th scope="col">Name</th>
                         <th scope="col">Position</th>
                         <th scope="col">Level</th>
@@ -21,10 +24,17 @@
                 </thead>
                 <tbody>
                     <% if (employees.length === 0) { %>
-                        <tr><td colspan="4" class="text-center text-muted p-4">No employees found.</td></tr>
+                        <tr><td colspan="5" class="text-center text-muted p-4">No employees found.</td></tr>
                     <% } %>
                     <% employees.forEach(employee => { %>
                         <tr>
+                            <td>
+                                
+                                <img src="/employees/<%= employee._id %>/photo" 
+                                     alt="Profile of <%= employee.name %>" 
+                                     class="profile-pic-sm"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/40x40/EFEFEF/AAAAAA?text=_';">
+                            </td>
                             <td class="fw-medium"><%= employee.name %></td>
                             <td><%= employee.position %></td>
                             <td>

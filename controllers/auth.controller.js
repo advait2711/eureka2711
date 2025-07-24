@@ -20,7 +20,7 @@ export const handleLogin = async (req, res) => {
   const isMatch = await bcrypt.compare(password, admin.password);
 
   if (isMatch) {
-    req.session.userId = admin._id; // Create a session for the admin
+    req.session.userId = admin._id; 
     res.redirect("/dashboard");
   } else {
     res.status(401).send("Invalid username or password");

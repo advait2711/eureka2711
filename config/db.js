@@ -22,7 +22,7 @@ const connectDB = async () => {
     await client.connect();
     await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB");
-    db = client.db("employees_db"); // Changed DB name for clarity
+    db = client.db("employees_db");
   } catch (err) {
     console.error("MongoDB connection error:", err);
   }
