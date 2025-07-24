@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const uri = process.env.ATLAS_URI;
+const uri = process.env.ATLAS;
 
 let db;
 
