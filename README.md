@@ -2,7 +2,7 @@
 
 A full-stack web application built with Node.js and Express that demonstrates employee management. The application is deployed live on Vercel.
 
-**Live Demo:** **[Link to your Vercel URL]**
+**Live Demo:** 
 
 https://eureka2711-mch7.vercel.app/
 
